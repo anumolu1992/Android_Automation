@@ -3,8 +3,7 @@ import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import java.util.ArrayList;
-
+import java.util.List;
 
 
 public class RestCountries_Validation {
@@ -23,7 +22,7 @@ public class RestCountries_Validation {
         Response response = RestAssured.get("https://restcountries.com/v3.1/alpha/per");
         ResponseBody body = response.getBody();
         String bodyAsString = body.asString();
-        Assert.assertTrue(bodyAsString.contains("Lima"), "Response body contains Lima");
+        Assert.assertEquals(bodyAsString.contains("Lima"), true);
     }
 
     /*Assert response code not equals to 400 */
@@ -42,7 +41,7 @@ public class RestCountries_Validation {
         Assert.assertEquals(statusCode, 404);
         ResponseBody body = response.getBody();
         String bodyAsString = body.asString();
-        Assert.assertFalse(bodyAsString.contains("\"PE\""), "Response body contains \"PE\"");
+        Assert.assertEquals(bodyAsString.contains("\"PE\""), false);
     }
 
 
@@ -68,11 +67,11 @@ public class RestCountries_Validation {
         Assert.assertTrue(bodyAsString.contains("\"cca2\""), "Response body contains \"cca2\"");
     }
 
-    /*Assert country capital in response matches expected value  */
+    /*Assert country capital in response matches expected value */
     @Test
     void test_07(){
         Response response = RestAssured.get("https://restcountries.com/v3.1/alpha/per");
-         ArrayList output = (ArrayList) response.jsonPath().getList("capital[0]");
+         List output = response.jsonPath().getList("capital[0]");
         Assert.assertEquals(output.get(0), "Lima");
     }
 
