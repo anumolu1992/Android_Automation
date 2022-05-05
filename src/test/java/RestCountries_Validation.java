@@ -4,6 +4,7 @@ import io.restassured.response.ResponseBody;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class RestCountries_Validation {
@@ -73,6 +74,13 @@ public class RestCountries_Validation {
         Response response = RestAssured.get("https://restcountries.com/v3.1/alpha/per");
          List output = response.jsonPath().getList("capital[0]");
         Assert.assertEquals(output.get(0), "Lima");
+    }
+
+    /* Log time needed to fetch the response from the backend */
+    @Test
+    public static void getResponseTime(){
+        Response response = RestAssured.get("https://restcountries.com/v3.1/alpha/per");
+        System.out.println("The time taken to fetch the response is "+ response.timeIn(TimeUnit.MILLISECONDS) + " milliseconds");
     }
 
 }
